@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import type { Character } from '../types/types';
+import { CardCharacter } from './CardCharacter';
 
 interface Props {
   results: Character[];
@@ -8,31 +9,15 @@ interface Props {
 export class ResultsList extends Component<Props> {
   render() {
     const { results } = this.props;
-    console.log('ResultsList received:', results);
+
     return (
       <div style={{ padding: '1rem' }}>
         {results.length === 0 ? (
-          <p>Нет результатов</p>
+          <p>No results</p>
         ) : (
-          <ul>
+          <ul style={{ listStyle: 'none', padding: 0 }}>
             {results.map((char) => (
-              <li key={char.uid}>
-                <strong>{char.name}</strong>{' '}
-                <ul>
-                  <li>
-                    <b>Родная планета:</b> {char.homeworld}
-                  </li>
-                  <li>
-                    <b>Вид:</b> {char.species.join(', ') || 'неизвестно'}
-                  </li>
-                  <li>
-                    <b>Корабли:</b> {char.starships.join(', ') || 'нет'}
-                  </li>
-                  <li>
-                    <b>Фильмы:</b> {char.films.join(', ') || 'неизвестно'}
-                  </li>
-                </ul>
-              </li>
+              <CardCharacter key={char.uid} character={char} />
             ))}
           </ul>
         )}

@@ -32,10 +32,10 @@ export class SearchBar extends Component<SearchProps, SearchState> {
           type="text"
           value={this.state.input}
           onChange={this.handleChange}
-          placeholder="Search Star Wars characters..."
+          placeholder="Star Wars characters..."
           style={{ marginRight: '0.5rem' }}
         />
-        <button onClick={this.handleClick}>Поиск</button>
+        <button onClick={this.handleClick}>Search</button>
       </div>
     );
   }
