@@ -1,1 +1,3 @@
-# rs-react
+# React + TypeScript + Vite
+
+Rs-react application
