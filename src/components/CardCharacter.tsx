@@ -10,7 +10,7 @@ export const CardCharacter: React.FC<Props> = ({ character }) => {
     character;
 
   return (
-    <div
+    <li
       style={{
         marginBottom: '1rem',
         padding: '0.5rem',
@@ -38,6 +38,6 @@ export const CardCharacter: React.FC<Props> = ({ character }) => {
           <b>Homeworld:</b> {homeworld || 'unknown'}
         </li>
       </ul>
-    </div>
+    </li>
   );
 };
