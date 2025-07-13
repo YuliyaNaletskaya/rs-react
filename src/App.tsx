@@ -1,15 +1,12 @@
 import { Component } from 'react';
 import { ResultsList } from './components/ResultsList';
 import { SearchBar } from './components/SearchBar';
-import type { Character, RawCharacter } from './types/types';
+import type { AppState, Character, RawCharacter } from './types/types';
 import { fetchHomeworld } from './utils/fetchHomeworld';
+import { Spinner } from './components/Spinner';
+import './App.css';
 
 const MAX_CHARACTERS = 10;
-
-interface AppState {
-  query: string;
-  results: Character[];
-}
 
 export class App extends Component<Record<string, never>, AppState> {
   constructor(props: Record<string, never>) {
@@ -18,6 +15,7 @@ export class App extends Component<Record<string, never>, AppState> {
     this.state = {
       query: savedQuery,
       results: [],
+      loading: false,
     };
   }
 
@@ -26,6 +24,7 @@ export class App extends Component<Record<string, never>, AppState> {
   }
 
   fetchData = async (search: string) => {
+    this.setState({ loading: true });
     const baseUrl = search
       ? `https://www.swapi.tech/api/people/?name=${encodeURIComponent(search)}`
       : `https://www.swapi.tech/api/people/`;
@@ -89,7 +88,7 @@ export class App extends Component<Record<string, never>, AppState> {
         })
       );
       console.log('Processed characters:', getDescription);
-      this.setState({ results: getDescription });
+      this.setState({ results: getDescription, loading: false });
     } catch (err) {
       console.error('Error loading data:', err);
       this.setState({ results: [] });
@@ -103,13 +102,23 @@ export class App extends Component<Record<string, never>, AppState> {
 
   render() {
     return (
-      <div>
+      <div style={{ position: 'relative' }}>
         <SearchBar
           onSearch={this.handleSearch}
           initialValue={this.state.query}
         />
 
-        <ResultsList results={this.state.results} />
+        {this.state.loading && <Spinner />}
+
+        <div
+          style={{
+            filter: this.state.loading ? 'blur(3px)' : 'none',
+            pointerEvents: this.state.loading ? 'none' : 'auto',
+            transition: 'filter 0.3s ease',
+          }}
+        >
+          <ResultsList results={this.state.results} />
+        </div>
       </div>
     );
   }

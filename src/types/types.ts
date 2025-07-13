@@ -8,18 +8,22 @@ export interface Character {
   homeworld: string;
 }
 
+export interface AppState {
+  query: string;
+  results: Character[];
+  loading: boolean;
+}
+
 export interface ApiResponseSearch {
   message: string;
   result: RawCharacter[];
 }
 
-// Для общего запроса: сначала приходит список ссылок
 export interface ApiResponseGeneral {
   message: string;
   results: RawCharacter[];
 }
 
-// Сырой персонаж от API
 export interface RawCharacter {
   uid: string;
   name?: string; // только у общего запроса
