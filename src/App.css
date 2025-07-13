@@ -17,3 +17,49 @@
     transform: rotate(360deg);
   }
 }
+
+.item-container {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.item-name {
+  width: 30%;
+  text-align: left;
+  color: #ffff95;
+  padding: 0.5rem 1rem;
+  margin: 0;
+}
+
+.description {
+  list-style: none;
+  text-align: left;
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+  color: #f7f7df;
+}
+
+.search-field {
+  padding: 0.5rem;
+  margin-right: 1.2rem;
+  border-radius: 6px;
+  background-color: #f7f7df;
+}
+
+.search {
+  padding: 0.5rem;
+  border-radius: 6px;
+  color: #292954;
+  font-weight: 600;
+  background-color: #ffff95;
+}
+
+.search:hover {
+  cursor: pointer;
+  color: #ffff95;
+  background-color: #bdbdfa;
+}

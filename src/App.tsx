@@ -5,6 +5,7 @@ import type { AppState, Character, RawCharacter } from './types/types';
 import { fetchHomeworld } from './utils/fetchHomeworld';
 import { Spinner } from './components/Spinner';
 import './App.css';
+import { Header } from './components/Header';
 
 const MAX_CHARACTERS = 10;
 
@@ -102,22 +103,26 @@ export class App extends Component<Record<string, never>, AppState> {
 
   render() {
     return (
-      <div style={{ position: 'relative' }}>
-        <SearchBar
-          onSearch={this.handleSearch}
-          initialValue={this.state.query}
-        />
+      <div>
+        <Header />
 
-        {this.state.loading && <Spinner />}
+        <div style={{ position: 'relative' }}>
+          <SearchBar
+            onSearch={this.handleSearch}
+            initialValue={this.state.query}
+          />
 
-        <div
-          style={{
-            filter: this.state.loading ? 'blur(3px)' : 'none',
-            pointerEvents: this.state.loading ? 'none' : 'auto',
-            transition: 'filter 0.3s ease',
-          }}
-        >
-          <ResultsList results={this.state.results} />
+          {this.state.loading && <Spinner />}
+
+          <div
+            style={{
+              filter: this.state.loading ? 'blur(3px)' : 'none',
+              pointerEvents: this.state.loading ? 'none' : 'auto',
+              transition: 'filter 0.3s ease',
+            }}
+          >
+            <ResultsList results={this.state.results} />
+          </div>
         </div>
       </div>
     );

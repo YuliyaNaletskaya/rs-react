@@ -4,7 +4,7 @@ export const Spinner = () => (
   <div
     style={{
       position: 'absolute',
-      top: '1rem',
+      top: '10rem',
       left: '50%',
       transform: 'translateX(-50%)',
       zIndex: 999,
@@ -12,7 +12,7 @@ export const Spinner = () => (
       alignItems: 'center',
       gap: '0.5rem',
       fontSize: '1rem',
-      color: '#555',
+      color: '#ffff95',
     }}
   >
     <FaSpinner className="spinner" style={{ fontSize: '1.4rem' }} />

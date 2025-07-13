@@ -27,15 +27,17 @@ export class SearchBar extends Component<SearchProps, SearchState> {
 
   render() {
     return (
-      <div style={{ padding: '1rem', borderBottom: '1px solid #ccc' }}>
+      <div style={{ padding: '2rem', borderBottom: '1px solid #ccc' }}>
         <input
+          className="search-field"
           type="text"
           value={this.state.input}
           onChange={this.handleChange}
           placeholder="Star Wars characters..."
-          style={{ marginRight: '0.5rem' }}
         />
-        <button onClick={this.handleClick}>Search</button>
+        <button className="search" onClick={this.handleClick}>
+          Search
+        </button>
       </div>
     );
   }
