@@ -58,7 +58,8 @@
   background-color: #ffff95;
 }
 
-.search:hover {
+.search:hover,
+.brouke:hover {
   cursor: pointer;
   color: #ffff95;
   background-color: #bdbdfa;

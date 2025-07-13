@@ -12,6 +12,7 @@ export interface AppState {
   query: string;
   results: Character[];
   loading: boolean;
+  triggerError: boolean;
 }
 
 export interface ApiResponseSearch {
@@ -26,7 +27,7 @@ export interface ApiResponseGeneral {
 
 export interface RawCharacter {
   uid: string;
-  name?: string; // только у общего запроса
+  name?: string;
   description?: string;
   url: string;
   properties?: {

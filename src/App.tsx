@@ -8,6 +8,9 @@ import './App.css';
 import { Header } from './components/Header';
 
 const MAX_CHARACTERS = 10;
+const BrokenComponent = () => {
+  throw new Error('Компонент сломался!');
+};
 
 export class App extends Component<Record<string, never>, AppState> {
   constructor(props: Record<string, never>) {
@@ -17,6 +20,7 @@ export class App extends Component<Record<string, never>, AppState> {
       query: savedQuery,
       results: [],
       loading: false,
+      triggerError: false,
     };
   }
 
@@ -30,12 +34,10 @@ export class App extends Component<Record<string, never>, AppState> {
       ? `https://www.swapi.tech/api/people/?name=${encodeURIComponent(search)}`
       : `https://www.swapi.tech/api/people/`;
 
-    console.log('URL:', baseUrl);
-
     try {
       const res = await fetch(baseUrl);
       const data = await res.json();
-      console.log('Full API response:', data);
+
       const rawResults: RawCharacter[] = Array.isArray(data.results)
         ? data.results
         : Array.isArray(data.result)
@@ -63,7 +65,6 @@ export class App extends Component<Record<string, never>, AppState> {
             const charRes = await fetch(char.url);
             const charData = await charRes.json();
             const property = charData.result.properties;
-            console.log('data', charData);
 
             return {
               uid: char.uid,
@@ -88,7 +89,7 @@ export class App extends Component<Record<string, never>, AppState> {
           }
         })
       );
-      console.log('Processed characters:', getDescription);
+
       this.setState({ results: getDescription, loading: false });
     } catch (err) {
       console.error('Error loading data:', err);
@@ -121,6 +122,14 @@ export class App extends Component<Record<string, never>, AppState> {
               transition: 'filter 0.3s ease',
             }}
           >
+            <button
+              className="brouke"
+              style={{ margin: '1rem 0', padding: '0.2rem' }}
+              onClick={() => this.setState({ triggerError: true })}
+            >
+              Broke (Test)
+            </button>
+            {this.state.triggerError && <BrokenComponent />}
             <ResultsList results={this.state.results} />
           </div>
         </div>
