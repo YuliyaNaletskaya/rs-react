@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for CardCharacter.tsx</title>
+    <title>Code coverage report for src/components/CardCharacter.tsx</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="prettify.css" />
-    <link rel="stylesheet" href="base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> CardCharacter.tsx</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/components</a> CardCharacter.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">16.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>1/6</span>
             </div>
         
             
@@ -107,34 +107,34 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
 import type { Character } from '../types/types';
 &nbsp;
@@ -153,19 +153,19 @@ export const CardCharacter: React.FC&lt;Props&gt; = ({ character }) =&gt; {
       &lt;/p&gt;
       &lt;ul className="description"&gt;
         &lt;li&gt;
-          &lt;b&gt;Description:&lt;/b&gt; {description || 'no description'}
+          &lt;b&gt;Description:&lt;/b&gt; {<span class="branch-0 cbranch-no" title="branch not covered" >description || 'no description'}</span>
         &lt;/li&gt;
         &lt;li&gt;
-          &lt;b&gt;Birth year:&lt;/b&gt; {birth_year || 'unknown'}
+          &lt;b&gt;Birth year:&lt;/b&gt; {<span class="branch-0 cbranch-no" title="branch not covered" >birth_year || 'unknown'}</span>
         &lt;/li&gt;
         &lt;li&gt;
-          &lt;b&gt;Gender:&lt;/b&gt; {gender || 'unknown'}
+          &lt;b&gt;Gender:&lt;/b&gt; {<span class="branch-0 cbranch-no" title="branch not covered" >gender || 'unknown'}</span>
         &lt;/li&gt;
         &lt;li&gt;
-          &lt;b&gt;Hair color:&lt;/b&gt; {hair_color || 'unknown'}
+          &lt;b&gt;Hair color:&lt;/b&gt; {<span class="branch-0 cbranch-no" title="branch not covered" >hair_color || 'unknown'}</span>
         &lt;/li&gt;
         &lt;li&gt;
-          &lt;b&gt;Homeworld:&lt;/b&gt; {homeworld || 'unknown'}
+          &lt;b&gt;Homeworld:&lt;/b&gt; {<span class="branch-0 cbranch-no" title="branch not covered" >homeworld || 'unknown'}</span>
         &lt;/li&gt;
       &lt;/ul&gt;
     &lt;/li&gt;
@@ -178,16 +178,16 @@ export const CardCharacter: React.FC&lt;Props&gt; = ({ character }) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-19T13:37:36.078Z
+                at 2025-07-19T14:28:59.572Z
             </div>
-        <script src="prettify.js"></script>
+        <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="sorter.js"></script>
-        <script src="block-navigation.js"></script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
     </body>
 </html>
     

@@ -26,14 +26,11 @@ describe('CardCharacter Component', () => {
   it('displays full character info correctly', () => {
     render(<CardCharacter character={completeCharacter} />);
 
-    // Проверяем имя
     expect(screen.getByText('Obi-Wan Kenobi')).toBeInTheDocument();
 
-    // Получаем список описания
     const descriptionList = screen.getByRole('list');
     const listItems = within(descriptionList).getAllByRole('listitem');
 
-    // Проверяем каждую строку по тексту
     expect(
       listItems.some((li) => li.textContent === 'Description: Jedi Master')
     ).toBe(true);
@@ -59,7 +56,6 @@ describe('CardCharacter Component', () => {
     const descriptionList = screen.getByRole('list');
     const listItems = within(descriptionList).getAllByRole('listitem');
 
-    // Проверка значений по умолчанию
     expect(
       listItems.some((li) => li.textContent === 'Description: no description')
     ).toBe(true);
