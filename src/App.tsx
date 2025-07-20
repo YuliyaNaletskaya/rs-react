@@ -9,7 +9,7 @@ import { Header } from './components/Header';
 
 const MAX_CHARACTERS = 10;
 const BrokenComponent = () => {
-  throw new Error('Компонент сломался!');
+  throw new Error('Component is broke!');
 };
 
 export class App extends Component<Record<string, never>, AppState> {

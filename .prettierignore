@@ -1,0 +1,4 @@
+coverage/
+vite-env.d.ts
+*.config.ts
+*.global.d.ts
