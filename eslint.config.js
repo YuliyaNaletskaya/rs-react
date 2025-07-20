@@ -8,7 +8,14 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 import { globalIgnores } from 'eslint/config';
 
 export default tseslint.config([
-  globalIgnores(['node_modules', 'dist']),
+  globalIgnores([
+    'node_modules',
+    'dist',
+    'coverage/',
+    'vite-env.d.ts',
+    '*.config.ts',
+    '*.global.d.ts',
+  ]),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [

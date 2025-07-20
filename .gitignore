@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Vite/TypeScript env
+vite-env.d.ts
+
+# Coverage reports
+coverage/
+

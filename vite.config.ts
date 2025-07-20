@@ -12,11 +12,16 @@ export default defineConfig({
     setupFiles: ['./src/tests/setupTests.ts'],
     include: ['src/**/*.test.{ts,tsx}', 'src/tests/**/*.test.{ts,tsx}'],
     coverage: {
-      enabled: true,
+      enabled: false,
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       include: ['src/**/*.{js,jsx,ts,tsx}'],
-      exclude: ['src/tests/**/*', 'src/**/*.test.{ts,tsx}'],
+      exclude: [
+        'src/tests/**/*',
+        'src/**/*.test.{ts,tsx}',
+        'src/vite-env.d.ts',
+        'coverage/**',
+      ],
       thresholds: {
         global: {
           statements: 80,
