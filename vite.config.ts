@@ -21,6 +21,8 @@ export default defineConfig({
         'src/**/*.test.{ts,tsx}',
         'src/vite-env.d.ts',
         'coverage/**',
+        'src/main.tsx',
+        'src/types/**',
       ],
       thresholds: {
         global: {
