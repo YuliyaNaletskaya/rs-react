@@ -50,7 +50,7 @@
   background-color: #f7f7df;
 }
 
-.search {
+.custom-button {
   padding: 0.5rem;
   border-radius: 6px;
   color: #292954;
@@ -58,8 +58,7 @@
   background-color: #ffff95;
 }
 
-.search:hover,
-.brouke:hover {
+.custom-button:hover {
   cursor: pointer;
   color: #ffff95;
   background-color: #bdbdfa;

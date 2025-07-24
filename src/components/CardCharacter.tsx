@@ -1,11 +1,10 @@
-import React from 'react';
 import type { Character } from '../types/types';
 
-interface Props {
+interface СharacterProps {
   character: Character;
 }
 
-export const CardCharacter: React.FC<Props> = ({ character }) => {
+export function CardCharacter({ character }: СharacterProps) {
   const { name, description, birth_year, gender, hair_color, homeworld } =
     character;
 
@@ -33,4 +32,4 @@ export const CardCharacter: React.FC<Props> = ({ character }) => {
       </ul>
     </li>
   );
-};
+}
