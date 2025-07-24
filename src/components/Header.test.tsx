@@ -6,13 +6,13 @@ describe('Header Component', () => {
   it('displays the correct title', () => {
     render(<Header />);
     const heading = screen.getByRole('heading', { level: 1 });
-    expect(heading).toHaveTextContent('StarWar');
+    expect(heading).toHaveTextContent('Star Wars Charactersq');
     expect(heading).toBeInTheDocument();
   });
 
   it('renders gracefully even with extra props', () => {
     // @ts-expect-error: intentionally passing unexpected props
     render(<Header unexpected="value" />);
-    expect(screen.getByText('StarWar')).toBeInTheDocument();
+    expect(screen.getByText('Star Wars Characters')).toBeInTheDocument();
   });
 });
