@@ -6,7 +6,7 @@ describe('Header Component', () => {
   it('displays the correct title', () => {
     render(<Header />);
     const heading = screen.getByRole('heading', { level: 1 });
-    expect(heading).toHaveTextContent('Star Wars Charactersq');
+    expect(heading).toHaveTextContent('Star Wars Characters');
     expect(heading).toBeInTheDocument();
   });
 
