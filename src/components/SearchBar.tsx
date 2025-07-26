@@ -15,7 +15,6 @@ export function SearchBar({ onSearch, initialValue }: SearchProps) {
 
   const handleClick = () => {
     const trimmed = input.trim();
-    localStorage.setItem('searchQuery', trimmed);
     onSearch(trimmed);
   };
 

@@ -3,7 +3,7 @@ import { fetchCharacters } from '../utils/api';
 import type { Character } from '../types/types';
 
 export function usePaginatedCharacters(search: string, page: number) {
-  const [cachedPages, setCachedPages] = useState<Record<number, Character[]>>(
+  const [cachedPages, setCachedPages] = useState<Record<string, Character[]>>(
     {}
   );
   const [results, setResults] = useState<Character[]>([]);
@@ -12,25 +12,24 @@ export function usePaginatedCharacters(search: string, page: number) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setCachedPages({});
-    setResults([]);
-  }, [search]);
-
-  useEffect(() => {
+    const cacheKey = `${search}_${page}`;
+    console.log('Выполняем fetchCharacters:', search, page);
     const loadPage = async () => {
-      if (cachedPages[page]) {
-        setResults(cachedPages[page]);
-        return;
-      }
-
       setLoading(true);
       setError(null);
 
       try {
-        const { characters, totalPages } = await fetchCharacters(search, page);
-        setResults(characters);
-        setCachedPages((prev) => ({ ...prev, [page]: characters }));
-        setTotalPages(totalPages);
+        if (cachedPages[cacheKey]) {
+          setResults(cachedPages[cacheKey]);
+        } else {
+          const { characters, totalPages } = await fetchCharacters(
+            search,
+            page
+          );
+          setResults(characters);
+          setCachedPages((prev) => ({ ...prev, [page]: characters }));
+          setTotalPages(totalPages);
+        }
       } catch (e) {
         console.error(e);
         setError('Error loading');
@@ -40,6 +39,7 @@ export function usePaginatedCharacters(search: string, page: number) {
     };
 
     loadPage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, page]);
 
   return { results, totalPages, loading, error };

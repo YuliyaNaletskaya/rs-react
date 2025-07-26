@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Pagination } from './components/Pagination';
 import { usePaginatedCharacters } from './hooks/usePaginatedCharacters';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 const BrokenComponent = () => {
   throw new Error('Component is broke!');
@@ -17,9 +18,8 @@ const BrokenComponent = () => {
 export function App() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const savedQuery = localStorage.getItem('searchQuery') || '';
-
-  const [query, setQuery] = useState<string>(savedQuery);
+  const [query, setQuery] = useLocalStorage<string>('searchQuery', '');
+  console.log('query из useLocalStorage:', query);
   const [triggerError, setTriggerError] = useState<boolean>(false);
 
   const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
@@ -34,7 +34,7 @@ export function App() {
     setQuery(q);
     setPage(1);
     setSearchParams({ page: '1' });
-    localStorage.setItem('searchQuery', q);
+    console.log('Новый query:', q);
   };
 
   const handlePageChange = (newPage: number) => {
