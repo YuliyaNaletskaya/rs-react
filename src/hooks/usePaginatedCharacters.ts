@@ -13,7 +13,7 @@ export function usePaginatedCharacters(search: string, page: number) {
 
   useEffect(() => {
     const cacheKey = `${search}_${page}`;
-    console.log('Выполняем fetchCharacters:', search, page);
+
     const loadPage = async () => {
       setLoading(true);
       setError(null);

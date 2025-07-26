@@ -3,7 +3,6 @@ import { SearchBar } from './components/SearchBar';
 import { Spinner } from './components/Spinner';
 import './App.css';
 import { Header } from './components/Header';
-// import { fetchCharacters } from './utils/api';
 import { Button } from './components/Button';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -19,7 +18,6 @@ export function App() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [query, setQuery] = useLocalStorage<string>('searchQuery', '');
-  console.log('query из useLocalStorage:', query);
   const [triggerError, setTriggerError] = useState<boolean>(false);
 
   const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
@@ -34,7 +32,6 @@ export function App() {
     setQuery(q);
     setPage(1);
     setSearchParams({ page: '1' });
-    console.log('Новый query:', q);
   };
 
   const handlePageChange = (newPage: number) => {

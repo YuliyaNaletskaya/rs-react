@@ -26,8 +26,7 @@ export const fetchCharacters = async (
       : Array.isArray(data.result)
         ? data.result
         : [];
-
-    console.log(data.total_pages);
+    // console.log(data.total_pages);
 
     const characters: Character[] = await Promise.all(
       rawResults.map(fetchCharactersDetails)

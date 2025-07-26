@@ -40,7 +40,7 @@ const mockResponse = {
 beforeEach(() => {
   vi.clearAllMocks();
   localStorage.clear();
-  vi.spyOn(console, 'error').mockImplementation(() => {}); // подавляем консольные ошибки
+  vi.spyOn(console, 'error').mockImplementation(() => {});
 });
 
 describe('App integration', () => {
@@ -62,7 +62,7 @@ describe('App integration', () => {
   });
 
   it('loads query from localStorage and sends it in request', async () => {
-    localStorage.setItem('searchQuery', 'Leia');
+    localStorage.setItem('searchQuery', JSON.stringify('Leia'));
 
     vi.mocked(fetch).mockResolvedValueOnce({
       json: async () => mockResponse,
