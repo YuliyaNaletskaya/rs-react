@@ -40,7 +40,7 @@ export function usePaginatedCharacters(search: string, page: number) {
     };
 
     loadPage();
-  }, [search, page, cachedPages]);
+  }, [search, page]);
 
   return { results, totalPages, loading, error };
 }
