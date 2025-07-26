@@ -1,39 +1,45 @@
 import { ResultsList } from './components/ResultsList';
 import { SearchBar } from './components/SearchBar';
-import type { Character } from './types/types';
 import { Spinner } from './components/Spinner';
 import './App.css';
 import { Header } from './components/Header';
-import { fetchCharacters } from './utils/api';
+// import { fetchCharacters } from './utils/api';
 import { Button } from './components/Button';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Pagination } from './components/Pagination';
+import { usePaginatedCharacters } from './hooks/usePaginatedCharacters';
 
 const BrokenComponent = () => {
   throw new Error('Component is broke!');
 };
 
 export function App() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const savedQuery = localStorage.getItem('searchQuery') || '';
 
   const [query, setQuery] = useState<string>(savedQuery);
-  const [results, setResult] = useState<Character[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
   const [triggerError, setTriggerError] = useState<boolean>(false);
 
-  useEffect(() => {
-    fetchData(query);
-  }, []);
+  const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
+  const [page, setPage] = useState<number>(pageFromUrl);
 
-  const fetchData = async (search: string) => {
-    setLoading(true);
-    const characters = await fetchCharacters(search);
-    setResult(characters);
-    setLoading(false);
-  };
+  const { results, totalPages, loading, error } = usePaginatedCharacters(
+    query,
+    page
+  );
 
   const handleSearch = (q: string) => {
     setQuery(q);
-    fetchData(q);
+    setPage(1);
+    setSearchParams({ page: '1' });
+    localStorage.setItem('searchQuery', q);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    setSearchParams({ page: newPage.toString() });
   };
 
   return (
@@ -55,7 +61,15 @@ export function App() {
           <Button onClick={() => setTriggerError(true)}>Broke (Test)</Button>
 
           {triggerError && <BrokenComponent />}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
           <ResultsList results={results} />
+          {!loading && results.length > 0 && (
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
         </div>
       </div>
     </div>

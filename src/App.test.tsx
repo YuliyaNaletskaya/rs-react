@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import App from './App';
 import * as fetchUtils from './utils/fetchHomeworld';
 import { MyErrorBoundary } from './components/MyErrorBoundary';
+import { MemoryRouter } from 'react-router-dom';
 
 vi.stubGlobal('fetch', vi.fn());
 vi.spyOn(fetchUtils, 'fetchHomeworld').mockResolvedValue('Tatooine');
@@ -48,7 +49,11 @@ describe('App integration', () => {
       json: async () => mockResponse,
     } as Response);
 
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    );
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining('/api/people/')
@@ -63,7 +68,11 @@ describe('App integration', () => {
       json: async () => mockResponse,
     } as Response);
 
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    );
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(expect.stringContaining('name=Leia'));
     });
@@ -74,7 +83,11 @@ describe('App integration', () => {
       json: async () => mockResponse,
     } as Response);
 
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    );
     fireEvent.change(screen.getByRole('textbox'), {
       target: { value: 'Vader' },
     });
@@ -88,19 +101,25 @@ describe('App integration', () => {
   it('handles API rejection with fallback UI', async () => {
     vi.mocked(fetch).mockRejectedValueOnce(new Error('Network error'));
 
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    );
     await waitFor(() => {
       expect(screen.getByText(/no results/i)).toBeInTheDocument();
     });
   });
 
   it('triggers error boundary when App crashes internally', async () => {
-    vi.spyOn(console, 'error').mockImplementation(() => {}); // подавляем консоль
+    vi.spyOn(console, 'error').mockImplementation(() => {});
 
     render(
-      <MyErrorBoundary>
-        <App />
-      </MyErrorBoundary>
+      <MemoryRouter>
+        <MyErrorBoundary>
+          <App />
+        </MyErrorBoundary>
+      </MemoryRouter>
     );
 
     fireEvent.click(screen.getByRole('button', { name: /broke/i }));

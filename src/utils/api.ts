@@ -1,13 +1,21 @@
 import type { Character, RawCharacter } from '../types/types';
-import { fetchHomeworld } from './fetchHomeworld';
+import { fetchCharactersDetails } from './fetchCharacterDetails';
 
 const MAX_CHARACTERS = 10;
 const BASE_URL = `https://www.swapi.tech/api/people/`;
 
-export const fetchCharacters = async (search: string): Promise<Character[]> => {
+interface PaginatedResult {
+  characters: Character[];
+  totalPages: number;
+}
+
+export const fetchCharacters = async (
+  search: string,
+  page: number
+): Promise<PaginatedResult> => {
   const baseUrl = search
-    ? `${BASE_URL}?name=${encodeURIComponent(search)}`
-    : BASE_URL;
+    ? `${BASE_URL}?name=${encodeURIComponent(search)}&page=${page}&limit=${MAX_CHARACTERS}`
+    : `${BASE_URL}?page=${page}&limit=${MAX_CHARACTERS}`;
 
   try {
     const res = await fetch(baseUrl);
@@ -19,56 +27,18 @@ export const fetchCharacters = async (search: string): Promise<Character[]> => {
         ? data.result
         : [];
 
-    const limitedResults = rawResults.slice(0, MAX_CHARACTERS);
+    console.log(data.total_pages);
 
     const characters: Character[] = await Promise.all(
-      limitedResults.map(async (char) => {
-        const props = char.properties;
-
-        if (props) {
-          return {
-            uid: char.uid,
-            name: props.name,
-            description: char.description || 'no description',
-            birth_year: props.birth_year || 'unknown',
-            gender: props.gender || 'unknown',
-            hair_color: props.hair_color || 'unknown',
-            homeworld: await fetchHomeworld(props.homeworld),
-          };
-        }
-
-        try {
-          const charRes = await fetch(char.url);
-          const charData = await charRes.json();
-          const property = charData.result.properties;
-
-          return {
-            uid: char.uid,
-            name: property.name,
-            description: charData.result.description || 'no description',
-            birth_year: property.birth_year || 'unknown',
-            gender: property.gender || 'unknown',
-            hair_color: property.hair_color || 'unknown',
-            homeworld: await fetchHomeworld(property.homeworld),
-          };
-        } catch (error) {
-          console.error('Error getting description:', error);
-          return {
-            uid: char.uid,
-            name: char.name,
-            description: 'no description',
-            birth_year: 'unknown',
-            gender: 'unknown',
-            hair_color: 'unknown',
-            homeworld: 'unknown',
-          };
-        }
-      })
+      rawResults.map(fetchCharactersDetails)
     );
 
-    return characters;
+    return { characters, totalPages: data.total_pages || 1 };
   } catch (err) {
     console.error('Error loading data:', err);
-    return [];
+    return {
+      characters: [],
+      totalPages: 1,
+    };
   }
 };
