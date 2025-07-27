@@ -128,4 +128,56 @@ describe('App integration', () => {
       expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
     });
   });
+
+  it('shows Details when "details" param is set', async () => {
+    vi.mocked(fetch).mockResolvedValue({
+      json: async () => mockResponse,
+    } as Response);
+
+    render(
+      <MemoryRouter initialEntries={['/?details=1']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/Jedi Knight/i)).toBeInTheDocument();
+      expect(screen.getByText(/close/i)).toBeInTheDocument();
+    });
+  });
+
+  it('removes details param on close', async () => {
+    vi.mocked(fetch).mockResolvedValue({
+      json: async () => mockResponse,
+    } as Response);
+
+    render(
+      <MemoryRouter initialEntries={['/?details=1']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    const closeButton = await screen.findByRole('button', { name: /close/i });
+    fireEvent.click(closeButton);
+
+    await waitFor(() => {
+      expect(window.location.search).not.toContain('details=');
+    });
+  });
+
+  it('shows "No results" when results array is empty', async () => {
+    vi.mocked(fetch).mockResolvedValueOnce({
+      json: async () => ({ results: [] }),
+    } as Response);
+
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/no results/i)).toBeInTheDocument();
+    });
+  });
 });

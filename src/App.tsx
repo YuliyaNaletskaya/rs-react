@@ -36,10 +36,6 @@ export function App() {
     setSearchParams({ page: '1' });
   };
 
-  // const handlePageChange = (newPage: number) => {
-  //   setPage(newPage);
-  //   setSearchParams({ page: newPage.toString() });
-  // };
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
     setSearchParams((prev) => {

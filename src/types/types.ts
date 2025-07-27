@@ -4,10 +4,10 @@ export interface Character {
   description: string;
   birth_year: string;
   gender: string;
-  hair_color: string;
-  height: string;
-  eye_color: string;
-  mass: string;
+  hair_color?: string;
+  height?: string;
+  eye_color?: string;
+  mass?: string;
   homeworld: string;
 }
 

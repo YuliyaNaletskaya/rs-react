@@ -22,13 +22,21 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className="pagination">
-      <Button onClick={handlePrev} disabled={currentPage === 1}>
+      <Button
+        onClick={handlePrev}
+        disabled={currentPage === 1}
+        aria-label="Previous"
+      >
         <ArrowLeft />
       </Button>
       <span>
         Page {currentPage} from {totalPages}
       </span>
-      <Button onClick={handleNext} disabled={currentPage === totalPages}>
+      <Button
+        onClick={handleNext}
+        disabled={currentPage === totalPages}
+        aria-label="Next"
+      >
         <ArrowRight />
       </Button>
     </div>

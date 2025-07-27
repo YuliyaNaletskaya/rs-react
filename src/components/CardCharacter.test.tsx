@@ -8,7 +8,6 @@ const completeCharacter = {
   description: 'Jedi Master',
   birth_year: '57BBY',
   gender: 'male',
-  hair_color: 'auburn',
   homeworld: 'Stewjon',
 };
 
@@ -18,13 +17,12 @@ const partialCharacter = {
   description: '',
   birth_year: '',
   gender: '',
-  hair_color: '',
   homeworld: '',
 };
 
 describe('CardCharacter Component', () => {
   it('displays full character info correctly', () => {
-    render(<CardCharacter character={completeCharacter} />);
+    render(<CardCharacter character={completeCharacter} onClick={() => {}} />);
 
     expect(screen.getByText('Obi-Wan Kenobi')).toBeInTheDocument();
 
@@ -41,15 +39,12 @@ describe('CardCharacter Component', () => {
       true
     );
     expect(
-      listItems.some((li) => li.textContent === 'Hair color: auburn')
-    ).toBe(true);
-    expect(
       listItems.some((li) => li.textContent === 'Homeworld: Stewjon')
     ).toBe(true);
   });
 
   it('handles missing fields with fallback values', () => {
-    render(<CardCharacter character={partialCharacter} />);
+    render(<CardCharacter character={partialCharacter} onClick={() => {}} />);
 
     expect(screen.getByText('Droid')).toBeInTheDocument();
 
@@ -65,9 +60,6 @@ describe('CardCharacter Component', () => {
     expect(listItems.some((li) => li.textContent === 'Gender: unknown')).toBe(
       true
     );
-    expect(
-      listItems.some((li) => li.textContent === 'Hair color: unknown')
-    ).toBe(true);
     expect(
       listItems.some((li) => li.textContent === 'Homeworld: unknown')
     ).toBe(true);
