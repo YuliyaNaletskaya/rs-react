@@ -14,6 +14,9 @@ export const fetchCharactersDetails = async (
       birth_year: props.birth_year || 'unknown',
       gender: props.gender || 'unknown',
       hair_color: props.hair_color || 'unknown',
+      height: props.height || 'unknown',
+      eye_color: props.eye_color || 'unknown',
+      mass: props.mass || 'unknown',
       homeworld: await fetchHomeworld(props.homeworld),
     };
   }
@@ -22,7 +25,6 @@ export const fetchCharactersDetails = async (
     const charRes = await fetch(char.url);
     const charData = await charRes.json();
     const property = charData.result.properties;
-
     return {
       uid: char.uid,
       name: property.name,
@@ -30,6 +32,9 @@ export const fetchCharactersDetails = async (
       birth_year: property.birth_year || 'unknown',
       gender: property.gender || 'unknown',
       hair_color: property.hair_color || 'unknown',
+      height: property.height || 'unknown',
+      eye_color: property.eye_color || 'unknown',
+      mass: property.mass || 'unknown',
       homeworld: await fetchHomeworld(property.homeworld),
     };
   } catch (error) {
@@ -41,6 +46,9 @@ export const fetchCharactersDetails = async (
       birth_year: 'unknown',
       gender: 'unknown',
       hair_color: 'unknown',
+      height: 'unknown',
+      eye_color: 'unknown',
+      mass: 'unknown',
       homeworld: 'unknown',
     };
   }

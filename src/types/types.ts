@@ -5,14 +5,10 @@ export interface Character {
   birth_year: string;
   gender: string;
   hair_color: string;
+  height: string;
+  eye_color: string;
+  mass: string;
   homeworld: string;
-}
-
-export interface AppState {
-  query: string;
-  results: Character[];
-  loading: boolean;
-  triggerError: boolean;
 }
 
 export interface ApiResponseSearch {
@@ -35,6 +31,21 @@ export interface RawCharacter {
     birth_year: string;
     gender: string;
     hair_color: string;
+    height: string;
+    eye_color: string;
+    mass: string;
     homeworld: string;
   };
+}
+
+export interface FilmData {
+  title: string;
+  characters: string[];
+  starships: string[];
+}
+
+export interface FilmApiResponse {
+  result: {
+    properties: FilmData;
+  }[];
 }

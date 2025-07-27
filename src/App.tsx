@@ -9,6 +9,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Pagination } from './components/Pagination';
 import { usePaginatedCharacters } from './hooks/usePaginatedCharacters';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import { Details } from './components/Details';
 
 const BrokenComponent = () => {
   throw new Error('Component is broke!');
@@ -22,6 +23,7 @@ export function App() {
 
   const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
   const [page, setPage] = useState<number>(pageFromUrl);
+  const detailsId = searchParams.get('details');
 
   const { results, totalPages, loading, error } = usePaginatedCharacters(
     query,
@@ -34,18 +36,46 @@ export function App() {
     setSearchParams({ page: '1' });
   };
 
+  // const handlePageChange = (newPage: number) => {
+  //   setPage(newPage);
+  //   setSearchParams({ page: newPage.toString() });
+  // };
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
-    setSearchParams({ page: newPage.toString() });
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set('page', String(newPage));
+      return next;
+    });
   };
+
+  const handleItemSelect = (id: string) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set('details', id);
+      return next;
+    });
+  };
+
+  const handleDetailsClose = () => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.delete('details');
+      return next;
+    });
+  };
+
+  const selectedCharacter = results.find((char) => char.uid === detailsId);
 
   return (
     <div>
       <Header />
-
       <div style={{ position: 'relative' }}>
         <SearchBar onSearch={handleSearch} initialValue={query} />
+        <Button onClick={() => setTriggerError(true)}>Broke (Test)</Button>
 
+        {triggerError && <BrokenComponent />}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
         {loading && <Spinner />}
 
         <div
@@ -55,18 +85,27 @@ export function App() {
             transition: 'filter 0.3s ease',
           }}
         >
-          <Button onClick={() => setTriggerError(true)}>Broke (Test)</Button>
+          <div className="search-results">
+            <div className="left-column">
+              <ResultsList results={results} onItemClick={handleItemSelect} />
+              {!loading && results.length > 0 && (
+                <Pagination
+                  currentPage={page}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              )}
+            </div>
 
-          {triggerError && <BrokenComponent />}
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          <ResultsList results={results} />
-          {!loading && results.length > 0 && (
-            <Pagination
-              currentPage={page}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          )}
+            {detailsId && selectedCharacter && (
+              <div className="details">
+                <Details
+                  character={selectedCharacter}
+                  onClose={handleDetailsClose}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

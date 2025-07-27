@@ -3,9 +3,10 @@ import { CardCharacter } from './CardCharacter';
 
 interface Props {
   results: Character[];
+  onItemClick: (id: string) => void;
 }
 
-export function ResultsList({ results }: Props) {
+export function ResultsList({ results, onItemClick }: Props) {
   return (
     <div style={{ padding: '1rem' }}>
       {results.length === 0 ? (
@@ -13,7 +14,11 @@ export function ResultsList({ results }: Props) {
       ) : (
         <ul style={{ listStyle: 'none', padding: 0 }}>
           {results.map((char) => (
-            <CardCharacter key={char.uid} character={char} />
+            <CardCharacter
+              key={char.uid}
+              character={char}
+              onClick={() => onItemClick(char.uid)}
+            />
           ))}
         </ul>
       )}

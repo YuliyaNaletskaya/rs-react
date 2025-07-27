@@ -21,7 +21,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div>
+    <div className="pagination">
       <Button onClick={handlePrev} disabled={currentPage === 1}>
         <ArrowLeft />
       </Button>

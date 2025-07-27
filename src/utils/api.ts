@@ -26,12 +26,10 @@ export const fetchCharacters = async (
       : Array.isArray(data.result)
         ? data.result
         : [];
-    // console.log(data.total_pages);
 
     const characters: Character[] = await Promise.all(
       rawResults.map(fetchCharactersDetails)
     );
-
     return { characters, totalPages: data.total_pages || 1 };
   } catch (err) {
     console.error('Error loading data:', err);
