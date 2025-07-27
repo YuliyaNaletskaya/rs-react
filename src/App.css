@@ -90,3 +90,12 @@
   align-items: center;
   gap: 1rem;
 }
+
+.link {
+  padding: 0 2rem;
+  color: #ffff95;
+}
+
+.image {
+  width: 200px;
+}

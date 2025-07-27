@@ -14,10 +14,6 @@ export function Details({
   const [films, setFilms] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log('Received character:', character);
-  }, [character]);
-
-  useEffect(() => {
     const fetchFilms = async () => {
       setLoading(true);
       try {

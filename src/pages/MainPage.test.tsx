@@ -1,9 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import App from './App';
-import * as fetchUtils from './utils/fetchHomeworld';
-import { MyErrorBoundary } from './components/MyErrorBoundary';
+// import App from './App';
+import * as fetchUtils from '../utils/fetchHomeworld';
+import { MyErrorBoundary } from '../components/MyErrorBoundary';
 import { MemoryRouter } from 'react-router-dom';
+import MainPage from './MainPage';
 
 vi.stubGlobal('fetch', vi.fn());
 vi.spyOn(fetchUtils, 'fetchHomeworld').mockResolvedValue('Tatooine');
@@ -51,7 +52,7 @@ describe('App integration', () => {
 
     render(
       <MemoryRouter>
-        <App />
+        <MainPage />
       </MemoryRouter>
     );
     await waitFor(() => {
@@ -70,7 +71,7 @@ describe('App integration', () => {
 
     render(
       <MemoryRouter>
-        <App />
+        <MainPage />
       </MemoryRouter>
     );
     await waitFor(() => {
@@ -85,7 +86,7 @@ describe('App integration', () => {
 
     render(
       <MemoryRouter>
-        <App />
+        <MainPage />
       </MemoryRouter>
     );
     fireEvent.change(screen.getByRole('textbox'), {
@@ -103,7 +104,7 @@ describe('App integration', () => {
 
     render(
       <MemoryRouter>
-        <App />
+        <MainPage />
       </MemoryRouter>
     );
     await waitFor(() => {
@@ -117,7 +118,7 @@ describe('App integration', () => {
     render(
       <MemoryRouter>
         <MyErrorBoundary>
-          <App />
+          <MainPage />
         </MyErrorBoundary>
       </MemoryRouter>
     );
@@ -136,7 +137,7 @@ describe('App integration', () => {
 
     render(
       <MemoryRouter initialEntries={['/?details=1']}>
-        <App />
+        <MainPage />
       </MemoryRouter>
     );
 
@@ -153,7 +154,7 @@ describe('App integration', () => {
 
     render(
       <MemoryRouter initialEntries={['/?details=1']}>
-        <App />
+        <MainPage />
       </MemoryRouter>
     );
 
@@ -172,7 +173,7 @@ describe('App integration', () => {
 
     render(
       <MemoryRouter>
-        <App />
+        <MainPage />
       </MemoryRouter>
     );
 
