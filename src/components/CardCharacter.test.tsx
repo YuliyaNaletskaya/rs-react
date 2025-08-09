@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import { CardCharacter } from './CardCharacter';
+import { renderWithRedux } from '../test-utils/renderWithRedux';
 
 const completeCharacter = {
   uid: '101',
@@ -22,7 +23,9 @@ const partialCharacter = {
 
 describe('CardCharacter Component', () => {
   it('displays full character info correctly', () => {
-    render(<CardCharacter character={completeCharacter} onClick={() => {}} />);
+    renderWithRedux(
+      <CardCharacter character={completeCharacter} onClick={() => {}} />
+    );
 
     expect(screen.getByText('Obi-Wan Kenobi')).toBeInTheDocument();
 
@@ -44,7 +47,9 @@ describe('CardCharacter Component', () => {
   });
 
   it('handles missing fields with fallback values', () => {
-    render(<CardCharacter character={partialCharacter} onClick={() => {}} />);
+    renderWithRedux(
+      <CardCharacter character={partialCharacter} onClick={() => {}} />
+    );
 
     expect(screen.getByText('Droid')).toBeInTheDocument();
 
