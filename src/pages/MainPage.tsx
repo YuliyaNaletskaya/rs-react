@@ -8,6 +8,7 @@ import { Pagination } from '../components/Pagination';
 import { usePaginatedCharacters } from '../hooks/usePaginatedCharacters';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { Details } from '../components/Details';
+import { SelectedFlyout } from '../components/SelectedFlyout';
 
 const BrokenComponent = () => {
   throw new Error('Component is broke!');
@@ -103,6 +104,7 @@ export function App() {
           </div>
         </div>
       </div>
+      <SelectedFlyout />
     </div>
   );
 }
