@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { Character } from '../../types/types';
+import { createSelector } from '@reduxjs/toolkit';
 
 interface SelectedCharacter extends Character {
   detailsUrl: string;
@@ -39,5 +40,15 @@ export const { toggleSelected, clearAllSelected, removeSelected } =
 
 export const selectSelectedMap = (state: { selectedItems: SelectedState }) =>
   state.selectedItems.selectedMap;
+
+export const selectSelectedList = createSelector(
+  [selectSelectedMap],
+  (selectedMap) => Object.values(selectedMap)
+);
+
+export const selectSelectedCount = createSelector(
+  [selectSelectedMap],
+  (selectedMap) => Object.keys(selectedMap).length
+);
 
 export default selectedItemsSlice.reducer;
