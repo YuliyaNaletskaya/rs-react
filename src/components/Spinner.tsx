@@ -2,6 +2,7 @@ import { FaSpinner } from 'react-icons/fa';
 
 export const Spinner = () => (
   <div
+    role="progressbar"
     style={{
       position: 'absolute',
       top: '10rem',
