@@ -74,13 +74,12 @@ export function App() {
         </Link>
         {triggerError && <BrokenComponent />}
         {error && <p style={{ color: 'red' }}>Error loading</p>}
-        {isLoading && <Spinner />}
-        {isFetching && !isLoading && <p>Data Update...</p>}
+        {(isLoading || isFetching) && <Spinner />}
 
         <div
           style={{
-            filter: isLoading ? 'blur(3px)' : 'none',
-            pointerEvents: isLoading ? 'none' : 'auto',
+            filter: isFetching ? 'blur(3px)' : 'none',
+            pointerEvents: isFetching ? 'none' : 'auto',
             transition: 'filter 0.3s ease',
           }}
         >

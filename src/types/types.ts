@@ -41,7 +41,7 @@ export interface RawCharacter {
 export interface FilmData {
   title: string;
   characters: string[];
-  starships: string[];
+  starships?: string[];
 }
 
 export interface FilmApiResponse {
