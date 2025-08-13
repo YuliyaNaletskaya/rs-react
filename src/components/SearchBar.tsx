@@ -1,44 +1,33 @@
-import { Component } from 'react';
+import { useState } from 'react';
+import { Button } from './Button';
 
 interface SearchProps {
   onSearch: (query: string) => void;
   initialValue: string;
 }
 
-interface SearchState {
-  input: string;
-}
+export function SearchBar({ onSearch, initialValue }: SearchProps) {
+  const [input, setInput] = useState<string>(initialValue);
 
-export class SearchBar extends Component<SearchProps, SearchState> {
-  constructor(props: SearchProps) {
-    super(props);
-    this.state = { input: props.initialValue };
-  }
-
-  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ input: e.target.value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
   };
 
-  handleClick = () => {
-    const trimmed = this.state.input.trim();
-    localStorage.setItem('searchQuery', trimmed);
-    this.props.onSearch(trimmed);
+  const handleClick = () => {
+    const trimmed = input.trim();
+    onSearch(trimmed);
   };
 
-  render() {
-    return (
-      <div style={{ padding: '2rem', borderBottom: '1px solid #ccc' }}>
-        <input
-          className="search-field"
-          type="text"
-          value={this.state.input}
-          onChange={this.handleChange}
-          placeholder="Star Wars characters..."
-        />
-        <button className="search" onClick={this.handleClick}>
-          Search
-        </button>
-      </div>
-    );
-  }
+  return (
+    <div style={{ padding: '2rem', borderBottom: '1px solid #ccc' }}>
+      <input
+        className="search-field"
+        type="text"
+        value={input}
+        onChange={handleChange}
+        placeholder="Star Wars characters..."
+      />
+      <Button onClick={handleClick}>Search</Button>
+    </div>
+  );
 }

@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  color: #f7f7df;
 }
 
 .spinner {
@@ -29,6 +30,9 @@
 
 .item-name {
   width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   text-align: left;
   color: #ffff95;
   padding: 0.5rem 1rem;
@@ -50,7 +54,7 @@
   background-color: #f7f7df;
 }
 
-.search {
+.custom-button {
   padding: 0.5rem;
   border-radius: 6px;
   color: #292954;
@@ -58,9 +62,40 @@
   background-color: #ffff95;
 }
 
-.search:hover,
-.brouke:hover {
+.custom-button:hover {
   cursor: pointer;
   color: #ffff95;
   background-color: #bdbdfa;
+}
+
+.custom-button:disabled {
+  cursor: no-drop;
+  color: #292954;
+  background-color: #bdbdfa;
+}
+.search-results {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.details {
+  width: 400px;
+  border-left: 1px solid #ccc;
+  padding-left: 1rem;
+}
+
+.pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.link {
+  padding: 0 2rem;
+  color: #ffff95;
+}
+
+.image {
+  width: 200px;
 }

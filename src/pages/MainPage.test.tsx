@@ -1,8 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import App from './App';
-import * as fetchUtils from './utils/fetchHomeworld';
-import { MyErrorBoundary } from './components/MyErrorBoundary';
+// import App from './App';
+import * as fetchUtils from '../utils/fetchHomeworld';
+import { MyErrorBoundary } from '../components/MyErrorBoundary';
+import { MemoryRouter } from 'react-router-dom';
+import MainPage from './MainPage';
 
 vi.stubGlobal('fetch', vi.fn());
 vi.spyOn(fetchUtils, 'fetchHomeworld').mockResolvedValue('Tatooine');
@@ -39,7 +41,7 @@ const mockResponse = {
 beforeEach(() => {
   vi.clearAllMocks();
   localStorage.clear();
-  vi.spyOn(console, 'error').mockImplementation(() => {}); // подавляем консольные ошибки
+  vi.spyOn(console, 'error').mockImplementation(() => {});
 });
 
 describe('App integration', () => {
@@ -48,7 +50,11 @@ describe('App integration', () => {
       json: async () => mockResponse,
     } as Response);
 
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining('/api/people/')
@@ -57,13 +63,17 @@ describe('App integration', () => {
   });
 
   it('loads query from localStorage and sends it in request', async () => {
-    localStorage.setItem('searchQuery', 'Leia');
+    localStorage.setItem('searchQuery', JSON.stringify('Leia'));
 
     vi.mocked(fetch).mockResolvedValueOnce({
       json: async () => mockResponse,
     } as Response);
 
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(expect.stringContaining('name=Leia'));
     });
@@ -74,7 +84,11 @@ describe('App integration', () => {
       json: async () => mockResponse,
     } as Response);
 
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
     fireEvent.change(screen.getByRole('textbox'), {
       target: { value: 'Vader' },
     });
@@ -88,25 +102,83 @@ describe('App integration', () => {
   it('handles API rejection with fallback UI', async () => {
     vi.mocked(fetch).mockRejectedValueOnce(new Error('Network error'));
 
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
     await waitFor(() => {
       expect(screen.getByText(/no results/i)).toBeInTheDocument();
     });
   });
 
   it('triggers error boundary when App crashes internally', async () => {
-    vi.spyOn(console, 'error').mockImplementation(() => {}); // подавляем консоль
+    vi.spyOn(console, 'error').mockImplementation(() => {});
 
     render(
-      <MyErrorBoundary>
-        <App />
-      </MyErrorBoundary>
+      <MemoryRouter>
+        <MyErrorBoundary>
+          <MainPage />
+        </MyErrorBoundary>
+      </MemoryRouter>
     );
 
     fireEvent.click(screen.getByRole('button', { name: /broke/i }));
 
     await waitFor(() => {
       expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+    });
+  });
+
+  it('shows Details when "details" param is set', async () => {
+    vi.mocked(fetch).mockResolvedValue({
+      json: async () => mockResponse,
+    } as Response);
+
+    render(
+      <MemoryRouter initialEntries={['/?details=1']}>
+        <MainPage />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/Jedi Knight/i)).toBeInTheDocument();
+      expect(screen.getByText(/close/i)).toBeInTheDocument();
+    });
+  });
+
+  it('removes details param on close', async () => {
+    vi.mocked(fetch).mockResolvedValue({
+      json: async () => mockResponse,
+    } as Response);
+
+    render(
+      <MemoryRouter initialEntries={['/?details=1']}>
+        <MainPage />
+      </MemoryRouter>
+    );
+
+    const closeButton = await screen.findByRole('button', { name: /close/i });
+    fireEvent.click(closeButton);
+
+    await waitFor(() => {
+      expect(window.location.search).not.toContain('details=');
+    });
+  });
+
+  it('shows "No results" when results array is empty', async () => {
+    vi.mocked(fetch).mockResolvedValueOnce({
+      json: async () => ({ results: [] }),
+    } as Response);
+
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/no results/i)).toBeInTheDocument();
     });
   });
 });

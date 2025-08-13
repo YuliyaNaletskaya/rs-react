@@ -33,27 +33,22 @@ describe('SearchBar Component', () => {
     expect(screen.getByDisplayValue('Leia')).toBeInTheDocument();
   });
 
-  it('trims input, saves to localStorage, and triggers search on click', () => {
+  it('trims input and triggers search on click', () => {
     render(<SearchBar onSearch={mockOnSearch} initialValue="" />);
     const input = screen.getByRole('textbox');
     fireEvent.change(input, { target: { value: '  Luke  ' } });
 
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
-
-    const saved = localStorage.getItem('searchQuery');
-    expect(saved).toBe('Luke');
     expect(mockOnSearch).toHaveBeenCalledWith('Luke');
   });
 
-  it('overwrites searchQuery in localStorage when re-searching', () => {
-    localStorage.setItem('searchQuery', 'Anakin');
+  it('calls onSearch with new value when user re-searches', () => {
     render(<SearchBar onSearch={mockOnSearch} initialValue="Anakin" />);
 
     const input = screen.getByRole('textbox');
     fireEvent.change(input, { target: { value: 'Padmé' } });
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
-    expect(localStorage.getItem('searchQuery')).toBe('Padmé');
     expect(mockOnSearch).toHaveBeenCalledWith('Padmé');
   });
 });
