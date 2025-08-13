@@ -5,10 +5,10 @@ import { Button } from '../components/Button';
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Pagination } from '../components/Pagination';
-import { usePaginatedCharacters } from '../hooks/usePaginatedCharacters';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { Details } from '../components/Details';
 import { SelectedFlyout } from '../components/SelectedFlyout';
+import { useGetCharactersQuery } from '../utils/api';
 
 const BrokenComponent = () => {
   throw new Error('Component is broke!');
@@ -24,10 +24,10 @@ export function App() {
   const [page, setPage] = useState<number>(pageFromUrl);
   const detailsId = searchParams.get('details');
 
-  const { results, totalPages, loading, error } = usePaginatedCharacters(
-    query,
-    page
-  );
+  const { data, error, isLoading, isFetching } = useGetCharactersQuery({
+    search: query,
+    page,
+  });
 
   const handleSearch = (q: string) => {
     setQuery(q);
@@ -60,7 +60,9 @@ export function App() {
     });
   };
 
-  const selectedCharacter = results.find((char) => char.uid === detailsId);
+  const selectedCharacter = data?.characters.find(
+    (char) => char.uid === detailsId
+  );
 
   return (
     <div>
@@ -71,23 +73,26 @@ export function App() {
           About Me
         </Link>
         {triggerError && <BrokenComponent />}
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        {loading && <Spinner />}
+        {error && <p style={{ color: 'red' }}>Error loading</p>}
+        {(isLoading || isFetching) && <Spinner />}
 
         <div
           style={{
-            filter: loading ? 'blur(3px)' : 'none',
-            pointerEvents: loading ? 'none' : 'auto',
+            filter: isFetching ? 'blur(3px)' : 'none',
+            pointerEvents: isFetching ? 'none' : 'auto',
             transition: 'filter 0.3s ease',
           }}
         >
           <div className="search-results">
             <div className="left-column">
-              <ResultsList results={results} onItemClick={handleItemSelect} />
-              {!loading && results.length > 0 && (
+              <ResultsList
+                results={data?.characters ?? []}
+                onItemClick={handleItemSelect}
+              />
+              {!isLoading && (data?.characters.length ?? 0) > 0 && (
                 <Pagination
                   currentPage={page}
-                  totalPages={totalPages}
+                  totalPages={data?.totalPages ?? 1}
                   onPageChange={handlePageChange}
                 />
               )}

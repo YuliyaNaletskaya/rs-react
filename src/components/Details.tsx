@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import type { Character, FilmApiResponse } from '../types/types';
+import type { Character } from '../types/types';
 import { Spinner } from './Spinner';
 import { Button } from './Button';
+import { useGetFilmsQuery } from '../utils/filmsApi';
 
 export function Details({
   character,
@@ -10,34 +10,20 @@ export function Details({
   character: Character;
   onClose: () => void;
 }) {
-  const [loading, setLoading] = useState(true);
-  const [films, setFilms] = useState<string[]>([]);
+  const charUrl = `https://www.swapi.tech/api/people/${character.uid}`;
+  const { titles, isLoading, error } = useGetFilmsQuery(undefined, {
+    selectFromResult: ({ data, isLoading, error }) => ({
+      titles:
+        data
+          ?.filter((film) => film.characters?.includes(charUrl))
+          .map((f) => f.title) ?? [],
+      isLoading,
+      error,
+    }),
+  });
 
-  useEffect(() => {
-    const fetchFilms = async () => {
-      setLoading(true);
-      try {
-        const result = await fetch(`https://www.swapi.tech/api/films`);
-        const data: FilmApiResponse = await result.json();
-
-        const charUrl = `https://www.swapi.tech/api/people/${character.uid}`;
-        const filmTitles = data.result
-          .map((f) => f.properties)
-          .filter((film) => film.characters?.includes(charUrl))
-          .map((film) => film.title);
-
-        setFilms(filmTitles);
-      } catch (err) {
-        console.error('Error fetching films:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFilms();
-  }, [character.uid]);
-
-  if (loading) return <Spinner />;
+  if (isLoading) return <Spinner />;
+  if (error) return <p style={{ color: 'red' }}>Error download</p>;
 
   return (
     <div>
@@ -64,7 +50,7 @@ export function Details({
         <li>
           <strong>Films:</strong>
           <ul>
-            {films.map((title, i) => (
+            {titles.map((title, i) => (
               <li key={i}>{title}</li>
             ))}
           </ul>

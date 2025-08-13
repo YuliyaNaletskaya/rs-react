@@ -1,8 +1,19 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { it, expect, describe } from 'vitest';
 import { beforeEach, vi } from 'vitest';
 import { Details } from './Details';
 import type { Character } from '../types/types';
+import * as filmsApi from '../utils/filmsApi';
+
+type FilmsApiModule = typeof filmsApi;
+
+vi.mock('../utils/filmsApi', async (importOriginal) => {
+  const actual = (await importOriginal()) as FilmsApiModule;
+  return {
+    ...actual,
+    useGetFilmsQuery: vi.fn(),
+  };
+});
 
 const mockCharacter: Character = {
   uid: '1',
@@ -11,50 +22,67 @@ const mockCharacter: Character = {
   homeworld: 'Tatooine',
   description: 'Jedi Knight',
   gender: 'male',
-};
-
-const mockFilmApiResponse = {
-  result: [
-    {
-      properties: {
-        title: 'A New Hope',
-        characters: ['https://www.swapi.tech/api/people/1'],
-      },
-    },
-    {
-      properties: {
-        title: 'The Empire Strikes Back',
-        characters: ['https://www.swapi.tech/api/people/2'],
-      },
-    },
-  ],
+  hair_color: 'blond',
+  height: '172',
+  eye_color: 'blue',
+  mass: '77',
 };
 
 beforeEach(() => {
-  vi.resetAllMocks();
-  globalThis.fetch = vi.fn().mockResolvedValue({
-    json: () => Promise.resolve(mockFilmApiResponse),
-  });
+  vi.clearAllMocks();
 });
 
-it('renders character details and correct films', async () => {
-  render(<Details character={mockCharacter} onClose={vi.fn()} />);
-  await waitFor(() => {
+describe('Details Component', () => {
+  it('renders character details and correct films', async () => {
+    (filmsApi.useGetFilmsQuery as ReturnType<typeof vi.fn>).mockReturnValue({
+      titles: ['A New Hope'],
+      isLoading: false,
+      error: null,
+    });
+
+    render(<Details character={mockCharacter} onClose={vi.fn()} />);
+
     expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
     expect(screen.getByText('A New Hope')).toBeInTheDocument();
-    expect(
-      screen.queryByText('The Empire Strikes Back')
-    ).not.toBeInTheDocument();
+    expect(screen.getByText(/birth year/i)).toBeInTheDocument();
+    expect(screen.getByText(/homeworld/i)).toBeInTheDocument();
   });
-});
 
-it('calls onClose when button is clicked', async () => {
-  const onClose = vi.fn();
-  render(<Details character={mockCharacter} onClose={onClose} />);
-  await waitFor(() =>
-    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
-  );
+  it('shows spinner while loading', () => {
+    (filmsApi.useGetFilmsQuery as ReturnType<typeof vi.fn>).mockReturnValue({
+      titles: [],
+      isLoading: true,
+      error: null,
+    });
 
-  screen.getByRole('button', { name: /close/i }).click();
-  expect(onClose).toHaveBeenCalled();
+    render(<Details character={mockCharacter} onClose={vi.fn()} />);
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
+
+  it('shows error message on failure', () => {
+    (filmsApi.useGetFilmsQuery as ReturnType<typeof vi.fn>).mockReturnValue({
+      titles: [],
+      isLoading: false,
+      error: new Error('Failed'),
+    });
+
+    render(<Details character={mockCharacter} onClose={vi.fn()} />);
+    expect(screen.getByText(/error download/i)).toBeInTheDocument();
+  });
+
+  it('calls onClose when button is clicked', async () => {
+    const onClose = vi.fn();
+
+    (filmsApi.useGetFilmsQuery as ReturnType<typeof vi.fn>).mockReturnValue({
+      titles: ['A New Hope'],
+      isLoading: false,
+      error: null,
+    });
+
+    render(<Details character={mockCharacter} onClose={onClose} />);
+    const closeButton = await screen.findByRole('button', { name: /close/i });
+    closeButton.click();
+
+    expect(onClose).toHaveBeenCalled();
+  });
 });

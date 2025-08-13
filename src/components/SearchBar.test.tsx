@@ -1,10 +1,21 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { SearchBar } from './SearchBar';
+import { charactersApi } from '../utils/api';
 
 const mockOnSearch = vi.fn();
+let dispatchMock: ReturnType<typeof vi.fn>;
+
+vi.mock('react-redux', async (importOriginal) => {
+  const actual = (await importOriginal()) as typeof import('react-redux');
+  return {
+    ...actual,
+    useDispatch: () => dispatchMock,
+  };
+});
 
 beforeEach(() => {
+  dispatchMock = vi.fn();
   vi.clearAllMocks();
   localStorage.clear();
 });
@@ -50,5 +61,14 @@ describe('SearchBar Component', () => {
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
     expect(mockOnSearch).toHaveBeenCalledWith('Padmé');
+  });
+
+  it('dispatches invalidateTags on update click', () => {
+    render(<SearchBar onSearch={mockOnSearch} initialValue="" />);
+    fireEvent.click(screen.getByRole('button', { name: /update/i }));
+
+    expect(dispatchMock).toHaveBeenCalledWith(
+      charactersApi.util.invalidateTags([{ type: 'Characters', id: 'LIST' }])
+    );
   });
 });

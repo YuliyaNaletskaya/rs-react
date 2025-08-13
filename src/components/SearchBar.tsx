@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Button } from './Button';
+import { useDispatch } from 'react-redux';
+import { charactersApi } from '../utils/api';
 
 interface SearchProps {
   onSearch: (query: string) => void;
@@ -18,8 +20,16 @@ export function SearchBar({ onSearch, initialValue }: SearchProps) {
     onSearch(trimmed);
   };
 
+  const dispatch = useDispatch();
+
+  const handleClickUpdate = () => {
+    dispatch(
+      charactersApi.util.invalidateTags([{ type: 'Characters', id: 'LIST' }])
+    );
+  };
+
   return (
-    <div style={{ padding: '2rem', borderBottom: '1px solid #ccc' }}>
+    <div className="search-bar">
       <input
         className="search-field"
         type="text"
@@ -28,6 +38,7 @@ export function SearchBar({ onSearch, initialValue }: SearchProps) {
         placeholder="Star Wars characters..."
       />
       <Button onClick={handleClick}>Search</Button>
+      <Button onClick={handleClickUpdate}>Update</Button>
     </div>
   );
 }
