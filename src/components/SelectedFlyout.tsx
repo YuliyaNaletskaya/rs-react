@@ -3,7 +3,7 @@ import {
   selectSelectedList,
   selectSelectedCount,
   clearAllSelected,
-} from '../app/slices/selectedItemsSlice';
+} from '../lib/slices/selectedItemsSlice';
 import type { Character } from '../types/types';
 import { toCsv } from '../utils/toCsv';
 

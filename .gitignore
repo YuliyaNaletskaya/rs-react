@@ -29,3 +29,7 @@ vite-env.d.ts
 # Coverage reports
 coverage/
 
+# ...
+.next
+next-env.d.ts
+dist

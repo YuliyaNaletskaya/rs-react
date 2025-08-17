@@ -4,7 +4,7 @@ import { MyErrorBoundary } from '../components/MyErrorBoundary';
 import { MemoryRouter } from 'react-router-dom';
 import MainPage from './MainPage';
 import { Provider } from 'react-redux';
-import { store } from '../app/store';
+import { store } from '../lib/store';
 import { useGetCharactersQuery } from '../utils/api';
 
 vi.mock('../utils/api', async (importOriginal) => {

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import {
   toggleSelected,
   selectSelectedMap,
-} from '../app/slices/selectedItemsSlice';
+} from '../lib/slices/selectedItemsSlice';
 
 interface СharacterProps {
   character: Character;
