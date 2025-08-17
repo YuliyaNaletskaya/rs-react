@@ -1,18 +1,24 @@
+'use client';
+
 import { useState, useEffect, useRef } from 'react';
 
 export function useLocalStorage<T>(
   key: string,
   initialValue: T
 ): [T, (val: T) => void] {
-  const [value, setValue] = useState<T>(() => {
+  const isFirstRun = useRef(true);
+  const [value, setValue] = useState<T>(initialValue);
+
+  useEffect(() => {
     try {
-      const stored = localStorage.getItem(key);
-      return stored ? JSON.parse(stored) : initialValue;
+      const stored = window.localStorage.getItem(key);
+      if (stored !== null) {
+        setValue(JSON.parse(stored) as T);
+      }
     } catch (err) {
       console.warn(`useLocalStorage: error reading "${key}"`, err);
-      return initialValue;
     }
-  });
+  }, [key]);
 
   const prevJson = useRef('');
 
@@ -25,6 +31,19 @@ export function useLocalStorage<T>(
       }
     } catch (err) {
       console.warn(`useLocalStorage: error reading "${key}"`, err);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (err) {
+      console.warn(`useLocalStorage: error writing "${key}"`, err);
     }
   }, [key, value]);
 

@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import Link from 'next/link';
+
 interface Person {
   name: string;
   role: string;
@@ -13,61 +16,63 @@ const person: Person = {
   githubUrl: 'https://github.com/YuliyaNaletskaya',
 };
 
-export function AboutPage() {
+export default function AboutPage() {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
       <section className="mb-8">
-        <h2 className="text-2xl font-bold text-center mb-4">Our Team</h2>
+        <h2 className="text-2xl font-bold text-center mb-4">About me</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="bg-gray-100 p-4 rounded-lg shadow-sm text-center team-card">
-            <img
+            <Image
               src={person.photoUrl}
               alt={`${person.name}'s photo`}
+              width={200}
+              height={200}
               className="image w-32 h-32 rounded-full mx-auto mb-4"
             />
             <h3 className="text-xl font-bold">{person.name}</h3>
             <p className="text-gray-600">{person.role}</p>
-            <a
+            <Link
               href={person.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="link text-green-500 underline mt-2 inline-block"
             >
               GitHub profile
-            </a>
+            </Link>
           </div>
         </div>
       </section>
 
       <section className="text-center">
         <h2 className="text-2xl font-bold mb-4">RS School</h2>
-        <a
+        <Link
           href="https://rs.school/"
           target="_blank"
           rel="noopener noreferrer"
           className="link inline-block"
         >
-          <img
+          <Image
             src="https://rs.school/_next/static/media/rss-logo.c19ce1b4.svg"
             alt="RS School Logo"
+            width={100}
+            height={100}
             className="image w-48 mx-auto"
           />
-        </a>
+        </Link>
         <p className="text-gray-600 mt-4">
           Find out more about the training program on the website{' '}
-          <a
+          <Link
             href="https://rs.school/"
             target="_blank"
             rel="noopener noreferrer"
             className="link text-green-500 underline"
           >
             RS School
-          </a>
+          </Link>
           .
         </p>
       </section>
     </div>
   );
 }
-
-export default AboutPage;
