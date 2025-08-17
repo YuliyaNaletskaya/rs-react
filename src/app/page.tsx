@@ -1,17 +1,22 @@
+// export const dynamic = 'force-dynamic';
+
 import { fetchCharactersServer } from '@/utils/fetchCharacters';
 import MainPageClient from './MainPageClient';
+import type { Character } from '@/types/types';
 
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | undefined };
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
-  const page = Number(searchParams.page ?? '1');
-  const detailsId = searchParams.details ?? null;
-  const search = searchParams.search ?? '';
+  const params = await searchParams;
 
-  // SSR-фетч (только для initial render)
-  const initialData = await fetchCharactersServer(search, page);
+  const page = Number(params.page ?? '1');
+  const detailsId = params.details ?? null;
+  const search = params.search ?? '';
+
+  const initialData: { characters: Character[]; totalPages: number } =
+    await fetchCharactersServer(search, page);
 
   return (
     <MainPageClient

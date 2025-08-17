@@ -1,16 +1,18 @@
+'use client';
+
 import type { Character } from '../types/types';
 import { Spinner } from './Spinner';
 import { Button } from './Button';
 import { useGetFilmsQuery } from '../utils/filmsApi';
 
-export function Details({
-  character,
-  onClose,
-}: {
+interface DetailsProps {
   character: Character;
-  onClose: () => void;
-}) {
+  onCloseAction: () => void;
+}
+
+export function Details({ character, onCloseAction }: DetailsProps) {
   const charUrl = `https://www.swapi.tech/api/people/${character.uid}`;
+
   const { titles, isLoading, error } = useGetFilmsQuery(undefined, {
     selectFromResult: ({ data, isLoading, error }) => ({
       titles:
@@ -56,7 +58,7 @@ export function Details({
           </ul>
         </li>
       </ul>
-      <Button onClick={onClose}>Close</Button>
+      <Button onClick={onCloseAction}>Close</Button>
     </div>
   );
 }

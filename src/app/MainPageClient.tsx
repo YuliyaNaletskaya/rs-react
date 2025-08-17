@@ -11,6 +11,7 @@ import { Details } from '@/components/Details';
 import { SelectedFlyout } from '@/components/SelectedFlyout';
 import { useGetCharactersQuery } from '@/utils/api';
 import type { Character } from '@/types/types';
+import Link from 'next/link';
 
 interface Props {
   initialPage: number;
@@ -38,7 +39,7 @@ export default function MainPageClient({
 
   const { data, error, isLoading, isFetching } = useGetCharactersQuery(
     { search: query, page },
-    { skip: query === initialSearch && page === initialPage } // чтобы не перезапрашивать сразу
+    { skip: query === initialSearch && page === initialPage }
   );
 
   const activeData = data ?? initialData;
@@ -48,6 +49,10 @@ export default function MainPageClient({
     if (value) params.set(key, value);
     else params.delete(key);
     router.push(`?${params.toString()}`);
+  };
+
+  const handleCloseDetails = () => {
+    updateParam('details');
   };
 
   return (
@@ -61,6 +66,10 @@ export default function MainPageClient({
         }}
         initialValue={query}
       />
+
+      <Link href="/about" className="link">
+        About Me
+      </Link>
 
       {error && <p style={{ color: 'red' }}>Error loading</p>}
       {(isLoading || isFetching) && <Spinner />}
@@ -82,7 +91,7 @@ export default function MainPageClient({
       {detailsId && (
         <Details
           character={activeData.characters.find((c) => c.uid === detailsId)!}
-          onClose={() => updateParam('details')}
+          onCloseAction={handleCloseDetails}
         />
       )}
 

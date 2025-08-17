@@ -1,3 +1,5 @@
+'use client';
+
 import type { Character } from '../types/types';
 import { Button } from './Button';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
