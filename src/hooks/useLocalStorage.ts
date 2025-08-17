@@ -32,6 +32,7 @@ export function useLocalStorage<T>(
     } catch (err) {
       console.warn(`useLocalStorage: error reading "${key}"`, err);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
   useEffect(() => {
