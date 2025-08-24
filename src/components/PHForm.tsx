@@ -63,71 +63,71 @@ export const RHForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div>
+      <div className="m-0">
         <label htmlFor="name">Name:</label>
-        <input id="name" {...register('name')} className="border p-2 w-full" />
+        <input id="name" {...register('name')} className="border p-1 w-full" />
         <p className="text-red-500 text-sm min-h-[1.25rem]">
           {errors.name?.message}
         </p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="age">Age:</label>
         <input
           id="age"
           type="number"
           {...register('age')}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         />
         <p className="text-red-500 text-sm min-h-[1.25rem]">
           {errors.age?.message}
         </p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="email">Email:</label>
         <input
           id="email"
           {...register('email')}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         />
         <p className="text-red-500 text-sm min-h-[1.25rem]">
           {errors.email?.message}
         </p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="password">Password:</label>
         <input
           id="password"
           type="password"
           {...register('password')}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         />
         <p className="text-red-500 text-sm min-h-[1.25rem]">
           {errors.password?.message}
         </p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="confirmPassword">Confirm Password:</label>
         <input
           id="confirmPassword"
           type="password"
           {...register('confirmPassword')}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         />
         <p className="text-red-500 text-sm min-h-[1.25rem]">
           {errors.confirmPassword?.message}
         </p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="gender">Gender:</label>
         <select
           id="gender"
           {...register('gender')}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         >
           <option value="">Select</option>
           <option value="male">Male</option>
@@ -138,13 +138,13 @@ export const RHForm = () => {
         </p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="country">Country:</label>
         <input
           id="country"
           list="country-list"
           {...register('country')}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         />
         <datalist id="country-list">
           {countries.map((c) => (
@@ -156,18 +156,18 @@ export const RHForm = () => {
         </p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="picture">Upload Picture:</label>
         <input
           id="picture"
           type="file"
           onChange={handlePictureUpload}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         />
         <p className="text-red-500 text-sm min-h-[1.25rem]">{pictureError}</p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="terms" className="flex items-center gap-2">
           <input id="terms" type="checkbox" {...register('termsAccepted')} />
           Accept Terms and Conditions
@@ -180,7 +180,7 @@ export const RHForm = () => {
       <button
         type="submit"
         disabled={!isValid}
-        className={`mt-4 px-4 py-2 rounded text-white ${
+        className={`px-4 py-1 rounded text-white ${
           isValid ? 'bg-green-600' : 'bg-gray-400 cursor-not-allowed'
         }`}
       >
