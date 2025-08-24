@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Modal } from '../components/Modal';
 import { UncontrolledForm } from '../components/UncontrolledForm';
-import { RHForm } from '../components/PHForm';
+import { RHForm } from '../components/RHForm';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../lib/store';
 
