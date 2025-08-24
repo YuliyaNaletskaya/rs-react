@@ -81,75 +81,75 @@ export const UncontrolledForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
+      <div className="m-0">
         <label htmlFor="name">Name:</label>
         <input
           id="name"
           name="name"
           ref={refs.name}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         />
         <p className="text-red-500 text-sm min-h-[1.25rem]">{errors.name}</p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="age">Age:</label>
         <input
           id="age"
           name="age"
           type="number"
           ref={refs.age}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         />
         <p className="text-red-500 text-sm min-h-[1.25rem]">{errors.age}</p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="email">Email:</label>
         <input
           id="email"
           name="email"
           ref={refs.email}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         />
         <p className="text-red-500 text-sm min-h-[1.25rem]">{errors.email}</p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="password">Password:</label>
         <input
           id="password"
           name="password"
           type="password"
           ref={refs.password}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         />
         <p className="text-red-500 text-sm min-h-[1.25rem]">
           {errors.password}
         </p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="confirmPassword">Confirm Password:</label>
         <input
           id="confirmPassword"
           name="confirmPassword"
           type="password"
           ref={refs.confirmPassword}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         />
         <p className="text-red-500 text-sm min-h-[1.25rem]">
           {errors.confirmPassword}
         </p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="gender">Gender:</label>
         <select
           id="gender"
           name="gender"
           ref={refs.gender}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         >
           <option value="">Select</option>
           <option value="male">Male</option>
@@ -158,14 +158,14 @@ export const UncontrolledForm = () => {
         <p className="text-red-500 text-sm min-h-[1.25rem]">{errors.gender}</p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="country">Country:</label>
         <input
           id="country"
           name="country"
           list="country-list"
           ref={refs.country}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         />
         <datalist id="country-list">
           {countries.map((c) => (
@@ -175,19 +175,19 @@ export const UncontrolledForm = () => {
         <p className="text-red-500 text-sm min-h-[1.25rem]">{errors.country}</p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="picture">Upload Picture:</label>
         <input
           id="picture"
           name="picture"
           type="file"
           ref={refs.picture}
-          className="border p-2 w-full"
+          className="border p-1 w-full"
         />
         <p className="text-red-500 text-sm min-h-[1.25rem]">{pictureError}</p>
       </div>
 
-      <div>
+      <div className="m-0">
         <label htmlFor="terms" className="flex items-center gap-2">
           <input id="terms" name="terms" type="checkbox" ref={refs.terms} />
           Accept Terms and Conditions
@@ -200,7 +200,7 @@ export const UncontrolledForm = () => {
 
       <button
         type="submit"
-        className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+        className="bg-blue-500 text-white px-4 py-2 rounded"
       >
         Submit
       </button>
