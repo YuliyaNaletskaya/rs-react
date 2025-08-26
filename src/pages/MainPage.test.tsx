@@ -5,6 +5,8 @@ import * as fetchUtils from '../utils/fetchHomeworld';
 import { MyErrorBoundary } from '../components/MyErrorBoundary';
 import { MemoryRouter } from 'react-router-dom';
 import MainPage from './MainPage';
+import { Provider } from 'react-redux';
+import { store } from '../app/store';
 
 vi.stubGlobal('fetch', vi.fn());
 vi.spyOn(fetchUtils, 'fetchHomeworld').mockResolvedValue('Tatooine');
@@ -51,9 +53,11 @@ describe('App integration', () => {
     } as Response);
 
     render(
-      <MemoryRouter>
-        <MainPage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <MainPage />
+        </MemoryRouter>
+      </Provider>
     );
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
@@ -70,9 +74,11 @@ describe('App integration', () => {
     } as Response);
 
     render(
-      <MemoryRouter>
-        <MainPage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <MainPage />
+        </MemoryRouter>
+      </Provider>
     );
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(expect.stringContaining('name=Leia'));
@@ -85,9 +91,11 @@ describe('App integration', () => {
     } as Response);
 
     render(
-      <MemoryRouter>
-        <MainPage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <MainPage />
+        </MemoryRouter>
+      </Provider>
     );
     fireEvent.change(screen.getByRole('textbox'), {
       target: { value: 'Vader' },
@@ -103,9 +111,11 @@ describe('App integration', () => {
     vi.mocked(fetch).mockRejectedValueOnce(new Error('Network error'));
 
     render(
-      <MemoryRouter>
-        <MainPage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <MainPage />
+        </MemoryRouter>
+      </Provider>
     );
     await waitFor(() => {
       expect(screen.getByText(/no results/i)).toBeInTheDocument();
@@ -116,11 +126,13 @@ describe('App integration', () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
 
     render(
-      <MemoryRouter>
-        <MyErrorBoundary>
-          <MainPage />
-        </MyErrorBoundary>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <MyErrorBoundary>
+            <MainPage />
+          </MyErrorBoundary>
+        </MemoryRouter>
+      </Provider>
     );
 
     fireEvent.click(screen.getByRole('button', { name: /broke/i }));
@@ -136,9 +148,11 @@ describe('App integration', () => {
     } as Response);
 
     render(
-      <MemoryRouter initialEntries={['/?details=1']}>
-        <MainPage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/?details=1']}>
+          <MainPage />
+        </MemoryRouter>
+      </Provider>
     );
 
     await waitFor(() => {
@@ -153,9 +167,11 @@ describe('App integration', () => {
     } as Response);
 
     render(
-      <MemoryRouter initialEntries={['/?details=1']}>
-        <MainPage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/?details=1']}>
+          <MainPage />
+        </MemoryRouter>
+      </Provider>
     );
 
     const closeButton = await screen.findByRole('button', { name: /close/i });
@@ -172,9 +188,11 @@ describe('App integration', () => {
     } as Response);
 
     render(
-      <MemoryRouter>
-        <MainPage />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <MainPage />
+        </MemoryRouter>
+      </Provider>
     );
 
     await waitFor(() => {

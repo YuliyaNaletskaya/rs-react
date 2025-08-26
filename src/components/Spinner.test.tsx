@@ -5,8 +5,8 @@ import { Spinner } from './Spinner';
 describe('Spinner Component', () => {
   it('renders the spinner icon and text', () => {
     render(<Spinner />);
-    expect(screen.getByText(/louding/i)).toBeInTheDocument();
-    expect(screen.getByText(/louding/i).tagName).toBe('SPAN');
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    expect(screen.getByText(/loading/i).tagName).toBe('SPAN');
   });
 
   it('is visible in the DOM and positioned absolutely', () => {

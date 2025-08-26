@@ -1,5 +1,10 @@
 import type { Character } from '../types/types';
 import { Button } from './Button';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import {
+  toggleSelected,
+  selectSelectedMap,
+} from '../app/slices/selectedItemsSlice';
 
 interface СharacterProps {
   character: Character;
@@ -7,10 +12,35 @@ interface СharacterProps {
 }
 
 export function CardCharacter({ character, onClick }: СharacterProps) {
-  const { name, description, birth_year, gender, homeworld } = character;
+  const { uid, name, description, birth_year, gender, homeworld } = character;
+
+  const dispatch = useAppDispatch();
+  const selectedMap = useAppSelector(selectSelectedMap);
+  const isSelected = !!selectedMap[uid];
+
+  const handleCheckboxToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    dispatch(
+      toggleSelected({
+        uid,
+        name,
+        description,
+        birth_year,
+        gender,
+        homeworld,
+        detailsUrl: `/?details=${uid}`,
+      })
+    );
+  };
 
   return (
-    <li className="item-container">
+    <li className="item-container" style={{ display: 'flex', gap: '1rem' }}>
+      <input
+        type="checkbox"
+        checked={isSelected}
+        onChange={handleCheckboxToggle}
+        onClick={(e) => e.stopPropagation()}
+      />
       <div className="item-name">
         <strong style={{ fontSize: '1.1rem' }}>{name}</strong>
         <Button onClick={onClick}>Details</Button>

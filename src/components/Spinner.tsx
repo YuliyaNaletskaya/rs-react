@@ -16,6 +16,6 @@ export const Spinner = () => (
     }}
   >
     <FaSpinner className="spinner" style={{ fontSize: '1.4rem' }} />
-    <span>Louding...</span>
+    <span>Loading...</span>
   </div>
 );
