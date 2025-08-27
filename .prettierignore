@@ -1,0 +1,8 @@
+coverage/
+vite-env.d.ts
+node_modules
+dist
+.next
+*.log
+*.config.ts
+*.global.d.ts
