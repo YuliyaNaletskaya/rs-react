@@ -16,10 +16,19 @@ export function latestPopulation(records: YearRecord[]): string | number {
   return 'N/A';
 }
 
-// export function isoFromRecords(records: YearRecord[]): string {
-//   for (let i = 0; i < records.length; i++) {
-//     const iso = records[i]?.iso_code as string | undefined;
-//     if (iso) return iso;
-//   }
-//   return 'N/A';
-// }
+export function populationByYear(
+  records: { year: number; population?: number }[],
+  year: number
+): number | null {
+  const entry = records.find((r) => r.year === year);
+  return entry?.population ?? null;
+}
+
+export function toNumeric(value: number | string | null): number {
+  if (typeof value === 'number') return value;
+  if (typeof value === 'string') {
+    const parsed = parseFloat(value);
+    return isNaN(parsed) ? 0 : parsed;
+  }
+  return 0;
+}

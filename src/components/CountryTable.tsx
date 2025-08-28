@@ -19,7 +19,7 @@ export function CountryTable({ country, rows }: CountryTableProps) {
   return (
     <details className="border rounded">
       <summary className="cursor-pointer px-3 py-2 font-medium">
-        {country}
+        Data for {country}
       </summary>
       <div className="p-3 overflow-x-auto">
         <table className="min-w-full border-collapse">
