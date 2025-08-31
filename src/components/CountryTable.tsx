@@ -1,14 +1,17 @@
 import { useColumns } from '../hooks/useColumns';
 import { formatVal } from '../utils/utils';
 import type { YearRecord } from '../types/types';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
 type CountryTableProps = {
   country: string;
   rows: YearRecord[];
 };
 
-export function CountryTable({ country, rows }: CountryTableProps) {
+export const CountryTable = memo(function CountryTable({
+  country,
+  rows,
+}: CountryTableProps) {
   const { base, extra } = useColumns();
   const allColumns = useMemo(() => [...base, ...extra], [base, extra]);
   const sortedRows = useMemo(
@@ -47,4 +50,4 @@ export function CountryTable({ country, rows }: CountryTableProps) {
       </div>
     </details>
   );
-}
+});

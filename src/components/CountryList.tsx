@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import type { CO2Data } from '../types/types';
 import { latestPopulation, populationByYear } from '../utils/utils';
 import { CountryTable } from './CountryTable';
 
-export function CountryList({
+export const CountryList = memo(function CountryList({
   data,
   selectedYear,
 }: {
@@ -33,4 +34,4 @@ export function CountryList({
       </div>
     </div>
   );
-}
+});
